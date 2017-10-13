@@ -13,6 +13,9 @@ class DatabaseStore extends EventEmitter {
 
     loadResults() {
         firebase.database().ref("Responses").on("value", (snapshot) => {
+            if(snapshot.val() == null) {
+              return;
+            }
             this.addResponses(snapshot.val());
         }, (error) => {
             console.log(error);
@@ -28,7 +31,7 @@ class DatabaseStore extends EventEmitter {
         setTimeout(() => {
             this.emit("ResultChange");
         }, 0);
-    }   
+    }
 
     getResults() {
         return this.results;

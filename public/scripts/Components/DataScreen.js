@@ -8,7 +8,7 @@ export default class DataScreen extends React.Component {
         super();
 
         let id = "k" + Math.floor(Math.random() * 1000000) + "-" + Math.floor(Math.random() * 1000);
-        
+
         this.canvasClass = "data-display " + id;
 
         this.ctx = null;
@@ -31,30 +31,32 @@ export default class DataScreen extends React.Component {
     }
 
     componentWillUnmount() {
-        DatabaseStore.removeListener("ResultChange", this.updateResults);        
+        DatabaseStore.removeListener("ResultChange", this.updateResults);
     }
 
     updateResults() {
         let results = DatabaseStore.getResults();
 
-        this.ctx.clearRect(0, 0, this.width, this.height);
+        this.ctx.save();
+        this.ctx.translate(this.width / 10 / 2, this.height / 10 / 2);
+        this.ctx.clearRect(-100, -100, this.width + 100, this.height + 100);
         this.ctx.fillStyle = "white";
-        this.ctx.fillRect(0, 0, this.width, this.height);
+        this.ctx.fillRect(-100, -100, this.width + 100, this.height + 100);
         this.ctx.fillStyle = "#404040";
 
         let scaleY = this.height / 10 * 9 / 5;
         let scaleX = this.width / 10;
 
         for(var i = 1; i <= 10; i++) {
-            this.ctx.fillText(i, (i -1) * scaleX - (this.width / 10 / 4), this.height / 10 * 9.5);
+            this.ctx.fillText(i, (i -1) * scaleX, this.height / 10 * 9.5);
         }
 
         for(var i = 0; i <= 5; i++) {
-            this.ctx.fillText(i, 0, this.height - (i) * scaleY - (this.height / 10 / 2 - 4));            
+            this.ctx.fillText(i, 0, this.height - (i) * scaleY - (this.height / 10 / 2 - 4));
         }
-
+        this.ctx.restore();
         results.map((result) => {
-            this.plot(result.orientation - 1, result.score - 1);
+            this.plot(result.orientation, result.score);
         });
     }
 
@@ -70,14 +72,19 @@ export default class DataScreen extends React.Component {
         let scaleY = this.height / 10 * 9 / 5;
         let scaleX = this.width / 10 * 9 / 10;
 
-        
+
+        let offsetX = Math.random() < 0.5 ? -Math.random() * 3 : Math.random() * 3;
+        let offsetY = Math.random() < 0.5 ? -Math.random() * 3 : Math.random() * 3;
+        offsetY += this.height / 10 / 2;
         this.ctx.save();
         this.ctx.translate(this.width / 10 / 2, this.height / 10 / 2);
         this.ctx.beginPath();
-        this.ctx.arc(x * scaleX, y * scaleY, 5, 0, Math.PI * 2);
+        this.ctx.arc(x * scaleX - this.width / 10 / 3 + offsetX, this.height / 10 * 9 - (y * scaleY) + offsetY, 10, 0, Math.PI * 2);
         this.ctx.fill();
         this.ctx.stroke();
         this.ctx.closePath();
+        this.ctx.fillStyle = "#404040";
+        this.ctx.fillText(x + ", " + y, x * scaleX - this.width / 10 / 3 + offsetX, this.height - (y * scaleY) + offsetY);
         this.ctx.restore();
     }
 
@@ -87,8 +94,10 @@ export default class DataScreen extends React.Component {
                 <canvas className={this.canvasClass}>
 
                 </canvas>
-                <div>
-                    {DatabaseStore.getCurrentResult().orientation}
+                <div className="user-result">
+                    Orientation: {DatabaseStore.getCurrentResult().orientation}
+                    <br></br>
+                    Score: {DatabaseStore.getCurrentResult().score}
                 </div>
             </div>
         );
