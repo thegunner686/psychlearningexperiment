@@ -23,9 +23,10 @@ export default class OptionComponent extends React.Component {
     }
 
     render() {
+        console.log(this.props.selected);
         return (
             <div className={this.optionClass}>
-                <div className="option-container">
+                <div className={this.props.selected ? "option-container-selected" : "option-container"}>
                     <div className="option-letter">
                         {this.data.letter}
                     </div>

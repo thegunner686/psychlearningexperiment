@@ -13,7 +13,7 @@ import firebase from "../Firebase";
 export default class SurveyScreen extends React.Component {
     constructor() {
         super();
-        
+
         this.state = {
             formData: {},
         };
@@ -34,18 +34,26 @@ export default class SurveyScreen extends React.Component {
         let numCorrect = 0;
         let db = firebase.database();
 
+        let numAnswered = 0;
+
         Object.keys(this.state.formData).map((key) => {
+            numAnswered++;
             if(this.state.formData[key].correct) {
                 numCorrect++;
             }
         });
+
+        if(numAnswered != 5) {
+          alert("Answer all of the questions.");
+          return;
+        }
 
         let orientation = 0;
 
         do {
             orientation = parseInt(prompt("On a scale of 1 - 10, 1 being very conservative, 5 being moderate, and 10 being very liberal, where do you lie?"));
         } while(orientation <= 0 || orientation > 10);
-        
+
         let result = {
             score: numCorrect,
             orientation,
@@ -90,23 +98,23 @@ export default class SurveyScreen extends React.Component {
 
                 <QuestionComponent callback={this.updateForm} data={
                     {
-                        question: "In 2013, there were approximately how many gun-related homicides?",
+                        question: "Which of the following categories of firearm related deaths is the LEAST prevalent in the U.S.?",
                         number: 2,
                         options: {
                             a: {
                                 letter: "a",
-                                content: "33,636",
+                                content: "Suicides",
                                 correct: false,
                             },
                             b: {
                                  letter: "b",
-                                 content: "About one-third of A.",
-                                 correct: true,
+                                 content: "Gang related shootings",
+                                 correct: false,
                             },
                             c: {
                                 letter: "c",
-                                content: "About two-thirds of A.",
-                                correct: false,
+                                content: "Mass Shootings",
+                                correct: true,
                             },
                             d: {
                                 letter: "d",
@@ -119,22 +127,22 @@ export default class SurveyScreen extends React.Component {
 
                 <QuestionComponent callback={this.updateForm} data={
                     {
-                        question: "In 2013, there were approximately how many gun-related homicides?",
+                        question: "Which firearm is responsible for most of the homicides in the U.S.?",
                         number: 3,
                         options: {
                             a: {
                                 letter: "a",
-                                content: "33,636",
+                                content: "AR-15",
                                 correct: false,
                             },
                             b: {
                                  letter: "b",
-                                 content: "About one-third of A.",
+                                 content: "Handguns",
                                  correct: true,
                             },
                             c: {
                                 letter: "c",
-                                content: "About two-thirds of A.",
+                                content: "Non-handgun semi-automatic weapons",
                                 correct: false,
                             },
                             d: {
@@ -148,22 +156,22 @@ export default class SurveyScreen extends React.Component {
 
                 <QuestionComponent callback={this.updateForm} data={
                     {
-                        question: "In 2013, there were approximately how many gun-related homicides?",
+                        question: "Which of the following is most true?",
                         number: 4,
                         options: {
                             a: {
                                 letter: "a",
-                                content: "33,636",
-                                correct: false,
+                                content: "Every federally licensed gun-owner has gone through a background check.",
+                                correct: true,
                             },
                             b: {
                                  letter: "b",
-                                 content: "About one-third of A.",
-                                 correct: true,
+                                 content: "A person can legally obtain a firearm without a background check at a gun show.",
+                                 correct: false,
                             },
                             c: {
                                 letter: "c",
-                                content: "About two-thirds of A.",
+                                content: "There are very little or no background checks for gun owners",
                                 correct: false,
                             },
                             d: {
@@ -177,23 +185,23 @@ export default class SurveyScreen extends React.Component {
 
                 <QuestionComponent callback={this.updateForm} data={
                     {
-                        question: "In 2013, there were approximately how many gun-related homicides?",
+                        question: "Which of the following regarding fully automatic firearms is most true?",
                         number: 5,
                         options: {
                             a: {
                                 letter: "a",
-                                content: "33,636",
+                                content: "You only need a simple background check to obtain one.",
                                 correct: false,
                             },
                             b: {
                                  letter: "b",
-                                 content: "About one-third of A.",
-                                 correct: true,
+                                 content: "Almost anyone can obtain one without a background check.",
+                                 correct: false,
                             },
                             c: {
                                 letter: "c",
-                                content: "About two-thirds of A.",
-                                correct: false,
+                                content: "There are extremely difficult to obtain",
+                                correct: true,
                             },
                             d: {
                                 letter: "d",
