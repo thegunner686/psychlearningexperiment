@@ -1,0 +1,45 @@
+.survey-container {
+    display: flex;
+    width: 90vw;
+    height: 200vh;
+    margin: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.question-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex: 1;
+    background-color: white;
+    margin: 2vw;
+    padding: 5vw;
+}
+
+.question-title {
+    flex: 1;
+    font-size: 0.9em;
+    text-align: justify;
+}
+
+.question-options {
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.option {
+    flex: 1;
+    font-size: 0.7em;
+    width: 80vw;
+    margin: 1vw;
+    border: 0.5vw solid rgba(250, 60, 80, 0.5);
+    padding: 1vw;
+    box-sizing: border-box;
+}

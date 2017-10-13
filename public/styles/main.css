@@ -1,0 +1,22 @@
+html, body {
+    margin: 0px;
+    padding: 0px;
+    font-family: Helvetica;
+    font-size: 1.1em;
+    color: #404040;
+    background-color: #3be8b0; /* #3be8b0 */
+}
+
+.loading-component {
+    position: absolute;
+    top: 40vh;
+    left: 40vw;
+    width: 20vw;
+    height: 20vw;
+}
+
+.data-display {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
